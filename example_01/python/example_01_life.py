@@ -19,7 +19,7 @@ db = odblab.load("example_01.odbz")
 swt = db.get("FIP.Smith-Watson-Topper", "nodes")
 mask = ~np.isnan(swt)
 
-# define residual function
+# define material constants and residual function
 E = 210e3
 sigma_f = 1057
 epsilon_f = 0.3439
@@ -33,5 +33,5 @@ N_f[mask] = newton(residual, x0=np.full_like(swt[mask], 1e3))
 N_f[N_f > 5e6] = 5e6 # run-out limit
 
 # add results to the database and visualize them
-db.add({"Fatigue Life": N_f}, "nodes")
+db.add({"Fatigue Life (SWT)": N_f}, "nodes")
 odblab.view(db)
